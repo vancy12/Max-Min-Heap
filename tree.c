@@ -8,12 +8,6 @@ tree initBST(tree R, int length)
     return R;
 }
 
-void initStack(stack *S, int length)
-{
-    S->top = -1;
-    S->size = length;
-    S->array = (int *)malloc(sizeof(int) * length);
-}
 
 tree insert(tree R, int data)
 {
@@ -38,6 +32,7 @@ void maxHeapify(int arr[], int n, int i)
     int left = 2 * i + 1;
     int right = 2 * i + 2;
 
+    // finds the largest of the three - root, left child and right child
     if (left < n && arr[left] > arr[largest])
         largest = left;
 
@@ -56,7 +51,11 @@ void maxHeapify(int arr[], int n, int i)
 
 tree maxHeap(tree R)
 {
-    for (int i = R.size / 2 - 1; i >= 0; i--)
+    // calling maxHeapify function for parent nodes only
+    // since R.size is length of array
+    // but our array is zero-indexed so (R.size - 1)
+
+    for (int i = (R.size-1) - 1 / 2; i >= 0; i--)
     {
         maxHeapify(R.root, R.size, i);
     }
@@ -88,7 +87,7 @@ void minHeapify(int arr[], int n, int i)
 
 tree minHeap(tree R)
 {
-    for (int i = R.size / 2 - 1; i >= 0; i--)
+    for (int i = (R.size - 1) - 1 / 2; i >= 0; i--)
         minHeapify(R.root, R.size, i);
 
     return R;
@@ -101,34 +100,6 @@ void levelwise(tree R)
         printf("%d ", R.root[i]);
     }
     return;
-}
-
-int isFull(stack S)
-{
-    return (S.top == S.size);
-}
-int isEmpty(stack S)
-{
-    return (S.top == -1);
-}
-
-void push(stack *S, int index)
-{
-    if (isFull(*S))
-        return;
-    S->top += 1;
-    S->array[S->top] = index;
-    return;
-}
-
-int pop(stack *S)
-{
-    if (isEmpty(*S))
-        return 0;
-    int p = S->array[S->top];
-    S->top -= 1;
-    // printf("Value of top is:%d", S->top);
-    return p;
 }
 
 void heapSortMax(tree R){
